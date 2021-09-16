@@ -30,12 +30,12 @@ def main():
                 msg = user_client.get_history(bot, 1)[0]
                 if snt.message_id == msg.message_id:
                     print(f"[WARNING] @{bot} is down")
-                    edit_text += f"🔴 @{bot} status: `Down`\n"
+                    edit_text += f"🔧 @{bot} status: `Down`\n"
                     user_client.send_message(bot_owner,
                                              f"@{bot} status: `Down`")
                 else:
                     print(f"[INFO] all good with @{bot}")
-                    edit_text += f"🟢 @{bot} status: `Up`\n"
+                    edit_text += f"🚀 @{bot} status: `Up`\n"
                 user_client.read_history(bot)
 
             utc_now = datetime.datetime.utcnow()
