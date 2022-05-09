@@ -13,7 +13,8 @@ api_id = int(os.environ.get("api_id"))
 api_hash = os.environ.get("api_hash")
 
 user_client = pyrogram.Client(
-    user_session_string,
+    "statuschecker",
+    session_string=user_session_string,
     api_id=api_id,
     api_hash=api_hash
 )
@@ -29,7 +30,7 @@ async def main():
                 snt = user_client.send_message(bot, '/start')
                 await sleep(15)
 
-                msg = user_client.get_history(bot, 1)[0]
+                msg = (await (user_client.get_history(bot, 1)).collect())[0]
                 if snt.message_id == msg.message_id:
                     # print(f"[WARNING] @{bot} is down")
                     edit_text += f"🔧 @{bot} status: `Down`\n"
@@ -40,7 +41,7 @@ async def main():
                 else:
                     # print(f"[INFO] all good with @{bot}")
                     edit_text += f"🚀 @{bot} status: `Up`\n"
-                await user_client.read_history(bot)
+                await user_client.read_chat_history(bot)
             utc_now = datetime.datetime.utcnow()
             ist_now = utc_now + datetime.timedelta(minutes=30, hours=5)
             edit_text += f"\n__Last checked on: \n{str(utc_now)} UTC\n{ist_now} IST__"
